@@ -64,14 +64,17 @@ class Game
     end
   end
 
-  # checks each case for matches or no matches, logic here still needs work
+  # checks each case for matches or no matches
   def check_matches
     count = 0
+    test_code = @generated_code
     @generated_code.each_index do |i|
-      if @player_code[i] == @generated_code[i]
+      if @player_code[i] == test_code[i]
         puts 'Correct color, correct postion'
-      elsif @player_code.include?(@generated_code[i])
+        test_code[i] = 0
+      elsif @player_code.include?(test_code[i])
         puts 'Correct color, incorrect position'
+        test_code[i] = 1
       else
         count += 1
         puts 'None of your pegs are in the code!' if count == 4
