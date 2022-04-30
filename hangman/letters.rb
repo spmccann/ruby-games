@@ -68,7 +68,7 @@ class Letters
   end
 
   def save_game
-    data = "[#{@selection}, #{@lives}, #{@not_in_word}, #{@in_word}]"
+    data = '['"\"#{@selection}\", #{@lives}, #{@not_in_word}, #{@in_word}"']'
     Dir.mkdir('saves') unless Dir.exist?('saves')
     save_file = 'saves/my_game.txt'
     File.open(save_file, 'w') { |f| f.puts data }
@@ -77,7 +77,6 @@ class Letters
   def load_game
     user_load = File.open('saves/my_game.txt', 'r').readline
     saved = JSON.parse(user_load)
-    p saved
     @selection = saved[0]
     @lives = saved[1]
     @not_in_word = saved[2]
