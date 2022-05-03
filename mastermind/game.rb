@@ -71,10 +71,10 @@ class Game
     @generated_code.each_index do |i|
       if @player_code[i] == test_code[i]
         puts 'Correct color, correct postion'
-        test_code[i] = 0
+        
       elsif @player_code.include?(test_code[i])
         puts 'Correct color, incorrect position'
-        test_code[i] = 1
+        
       else
         count += 1
         puts 'None of your pegs are in the code!' if count == 4
