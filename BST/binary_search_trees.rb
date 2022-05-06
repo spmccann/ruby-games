@@ -22,16 +22,18 @@ class Tree
 
   def initialize(array)
     @array = array.sort.uniq
-    # @root = build_tree(array)
+    @root = build_tree(array)
   end
 
   def build_tree(array)
     nil if array.nil?
     mid = array.length / 2
     root = Node.new(array[mid])
-    root.left = build_tree(array[0..mid])
-    root.right = build_tree(array[mid + 1..-1])
-    root
+    if array.length > 2
+      root.left = build_tree(array[0..mid])
+      root.right = build_tree(array[mid..-1])
+      root
+    end
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -41,6 +43,6 @@ class Tree
   end
 end
 
-birch = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+birch = Tree.new([1, 2, 3, 4, 5, 6, 7, 8, 9])
 
 birch.pretty_print
