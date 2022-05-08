@@ -8,7 +8,7 @@ class Tree
 
   def build_tree(array)
     array = array.sort.uniq
-    return nil unless array
+    return nil unless array[0]
 
     mid = array.length / 2
     return Node.new(array[mid - 1]) if array.length < 2
@@ -31,6 +31,12 @@ class Tree
     node
   end
 
+  def minValueNode(node = @root)
+    current = node
+    current = current.left while current.left
+    current
+  end
+
   def delete(key, node = @root)
     if node.nil?
       'key not found'
@@ -38,8 +44,12 @@ class Tree
       node.right = delete(key, node.right)
     elsif node.data > key
       node.left = delete(key, node.left)
-    elsif node.data == key
+    elsif node.data == key && node.left.nil? && node.right.nil?
       node = nil
+    elsif node.data == key && node.left
+      temp = minValueNode(node.right)
+      node.data = temp.data
+      node.right = delete(temp.data, node.right)
     end
     node
   end
