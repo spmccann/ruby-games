@@ -77,12 +77,13 @@ class Tree
     level_order(queue.shift, queue)
   end
 
-  def inorder(node = @root)
-    return if node.nil?
-
-    inorder(node.left)
-    p node.data
-    inorder(node.right)
+  def inorder(node = @root, out = [])
+    unless node.nil?
+      inorder(node.left, out)
+      out.push(node.data)
+      inorder(node.right, out)
+    end
+    p out
   end
 
   def preorder(node = @root)
@@ -130,6 +131,23 @@ class Tree
       puts hgt + 1
     end
     node
+  end
+
+  def balanced?(node = @root, left = 1, right = 1)
+    return if node.nil?
+
+    left += 1 if balanced?(node.left, left, right)
+    right += 1 if balanced?(node.right, left, right)
+    if (left - right).abs < 2
+      puts true
+    else
+      puts false
+    end
+  end
+
+  def rebalance(node = @root)
+    array = inorder(node)
+    @root = build_tree(array)
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
