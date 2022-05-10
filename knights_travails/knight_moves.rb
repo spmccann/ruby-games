@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# chess board
+# Finding path for knight to target
 class KnightMoves
   def initialize(knight, target)
     @knight = knight
@@ -68,22 +68,30 @@ class KnightMoves
   end
 
   # gets the coordinates for '1-away' squares between knight and target
-  def common_coord
-    pos = available_positions & available_positions(@target)
+  def com_cord(knight = @knight)
+    pos = available_positions(knight) & available_positions(@target)
     @all_sqs.at(pos[0]) if pos.any?
   end
 
   # search for path from start to target
-  def search_target(knight = @knight, count = 2)
+  def search_target(steps = [], knight = @knight, used = [])
+    steps << "#{knight}\n"
     if knight == @target
-      puts count < 3 ? "You're already there!\n#{knight}" : 'something'
-    elsif available_positions.include?(square_index(@target))
-      puts count < 3 ? "You made it in 1 move! Here's your path:\n#{knight}\n#{@target}" : 'something2'
-    elsif common_coord
-      puts count < 3 ? "You made it in 2 moves! Here's your path:\n#{knight}\n#{common_coord}\n#{@target}" : 'something3'
+      puts "You're already there!\n#{knight}"
+    elsif available_positions(knight).include?(square_index(@target))
+      puts "You made it in 1 move! Here's your path:\n#{knight}\n#{@target}"
+    elsif com_cord(knight)
+      puts "You made it in #{steps.length + 1} moves! Here's your path:\n#{steps.join}#{com_cord(knight)}\n#{@target}"
     else
-      count += 1
-      puts "You made it in #{count} moves! Here's your path:\n#{knight}\n[some, coords]\n#{@target}"
+      deep_search(steps, knight, used)
     end
+  end
+
+  def deep_search(steps, knight, used)
+    mid = available_moves.length / 2
+    select_move = available_moves(knight)[mid]
+    select_move = available_moves(knight)[-1] if used.include?(select_move)
+    used << select_move
+    search_target(steps, select_move, used)
   end
 end

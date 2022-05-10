@@ -3,8 +3,12 @@
 require_relative 'knight_moves'
 require_relative 'knight'
 
-knight = KnightMoves.new([3, 3], [0, 0])
+ran = Random.new
+start = [ran.rand(0..7), ran.rand(0..7)]
+target = [ran.rand(0..7), ran.rand(0..7)]
+
+knight = KnightMoves.new(start, target)
 knight.positions
-knight.available_moves
-knight.available_positions
 knight.search_target
+# knight.board_coordinates
+# knight.board_indexes
