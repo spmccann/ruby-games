@@ -3,7 +3,7 @@
 # knight piece
 class Knight
   include Comparable
-  attr_accessor :position, :left, :right
+  attr_accessor :position, :zero, :one, :two, :three, :four, :five, :six, :seven
 
   def <=>(other)
     position <=> other.position
@@ -11,7 +11,10 @@ class Knight
 
   def initialize(position)
     @position = position
-    @left = nil
-    @right = nil
+    @one = []
+    @two = []
+    @three = []
+    @four = []
+    @five = []
   end
 end
