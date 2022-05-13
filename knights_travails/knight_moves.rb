@@ -11,6 +11,7 @@ class KnightMoves
     @all_sqs = positions
     @moves = [[-2, -1], [-2, 1], [-1, 2], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]]
     @root = build_tree(knight)
+    @path = []
   end
 
   # creates all 64 postions on a chess board
@@ -22,28 +23,6 @@ class KnightMoves
       i += 1
     end
     all_sqs
-  end
-
-  # visual aid for board coordinates
-  def board_coordinates
-    i = 63
-    j = 56
-    while i >= 0
-      p @all_sqs[j..i]
-      i -= 8
-      j -= 8
-    end
-  end
-
-  # visual aid for board numbers
-  def board_indexes
-    i = 63
-    j = 56
-    while i >= 0
-      p @pos[j..i]
-      i -= 8
-      j -= 8
-    end
   end
 
   # checks that the position coordinates are valid squares. defaults to knight
@@ -69,33 +48,7 @@ class KnightMoves
     @all_sqs.index(knight) if valid_move(knight)
   end
 
-  # gets the coordinates for '1-away' squares between knight and target
-  def com_cord(knight = @knight)
-    pos = available_positions(knight) & available_positions(@target)
-    @all_sqs.at(pos[0]) if pos.any?
-  end
-
-  # search for path from start to target
-  def search_target(steps = [], knight = @knight, used = [])
-    steps << "#{knight}\n"
-    if knight == @target
-      puts "You're already there!\n#{knight}"
-    elsif available_positions(knight).include?(square_index(@target))
-      puts "You made it in 1 move! Here's your path:\n#{knight}\n#{@target}"
-    elsif com_cord(knight)
-      puts "You made it in #{steps.length + 1} moves! Here's your path:\n#{steps.join}#{com_cord(knight)}\n#{@target}"
-    else
-      deep_search(steps, knight, used)
-    end
-  end
-
-  def deep_search(steps, knight, used)
-    select_move = available_moves(knight)[0]
-    select_move = available_moves(knight)[-1] if used.include?(select_move)
-    used << select_move
-    search_target(steps, select_move, used)
-  end
-
+  # chart options at each move, starting from the initial square to 5 levels deep
   def build_tree(knight = @knight)
     node = square_index(knight)
     root = Knight.new(node)
@@ -107,30 +60,7 @@ class KnightMoves
     root
   end
 
-  def find_path(level = 0, node = nil)
-    if level == 4
-      next_node = @root.four.flatten.at(node[0])
-      node = @root.four[0][0].map.with_index { |arr, i| i if arr.include?(next_node) }.compact
-      p next_node
-    elsif level == 3
-      next_node = @root.three.flatten.at(node[0])
-      node = @root.three[0].map.with_index { |arr, i| i if arr.include?(next_node) }.compact
-      p next_node
-    elsif level == 2
-      next_node = @root.two.flatten.at(node[0])
-      node = @root.two[0].map.with_index { |arr, i| i if arr.include?(next_node) }.compact
-      p next_node
-    elsif level == 1
-      next_node = @root.one.flatten.at(node[0])
-      node = @root.one.map.with_index { |arr, i| i if arr.include?(next_node) }.compact
-      p next_node
-    else
-      @root.position
-    end
-    level -= 1
-    find_path(level, node) if level.positive?
-  end
-
+  # check which level the target is found first
   def reach_target
     goal = square_index(@target)
     if @root.position == goal
@@ -149,16 +79,44 @@ class KnightMoves
       find_path(level, node)
     elsif @root.four.flatten.include?(goal)
       level = 3
-      node = @root.four[0][0].map.with_index { |arr, i| i if arr.include?(goal) }.compact
+      node = @root.four[0].map.with_index { |arr, i| i if arr.include?(goal) }.compact
       find_path(level, node)
     elsif @root.five.flatten.include?(goal)
       level = 4
-      node = @root.five[0][0][0].map.with_index { |arr, i| i if arr.include?(goal) }.compact
+      node = @root.five[0].map.with_index { |arr, i| i if arr.include?(goal) }.compact
       find_path(level, node)
     end
   end
 
-  def every_move
-    @all_sqs.map { |sq| available_moves(sq) }
+  # work backwards from the target by getting the location of the next coordinate
+  def find_path(level = 0, node = nil)
+    case level
+    when 4
+      next_node = @root.four.flatten.at(node[0])
+      node = @root.four[0].map.with_index { |arr, i| i if arr.include?(next_node) }.compact
+      @path << next_node
+    when 3
+      next_node = @root.three.flatten.at(node[0])
+      node = @root.three[0].map.with_index { |arr, i| i if arr.include?(next_node) }.compact
+      @path << next_node
+    when 2
+      next_node = @root.two.flatten.at(node[0])
+      node = @root.two[0].map.with_index { |arr, i| i if arr.include?(next_node) }.compact
+      @path << next_node
+    when 1
+      next_node = @root.one.flatten.at(node[0])
+      node = @root.one.map.with_index { |arr, i| i if arr.include?(next_node) }.compact
+      @path << next_node
+    end
+    level -= 1
+    find_path(level, node) if level.positive?
+  end
+
+  # print out the knight's path
+  def show_path
+    cords = @path.reverse.map { |p| @all_sqs.at(p) }
+    cords.push(@target)
+    cords.unshift(@knight)
+    puts "You made it in #{cords.length - 1} moves! Here's your path:\n#{cords}"
   end
 end
