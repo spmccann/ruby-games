@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # knight piece
-class Knight
+class Tree
   include Comparable
   attr_accessor :position, :one, :two, :three, :four, :five
 

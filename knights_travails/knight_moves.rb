@@ -48,7 +48,7 @@ class KnightMoves
   # chart options at each move, starting from the initial square to 5 levels deep
   def build_tree(knight = @knight)
     goal = square_index(@target)
-    root = Knight.new(square_index(knight))
+    root = Tree.new(square_index(knight))
     root.one << moves = available_positions(knight)
     root.two << moves = moves.flatten.map { |m| available_positions(@all_sqs.at(m)) } unless moves.flatten.include?(goal)
     root.three << moves = moves.flatten.map { |m| available_positions(@all_sqs.at(m)) } unless moves.flatten.include?(goal)
