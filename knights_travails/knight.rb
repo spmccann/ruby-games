@@ -3,7 +3,7 @@
 # knight piece
 class Knight
   include Comparable
-  attr_accessor :position, :zero, :one, :two, :three, :four, :five, :six, :seven
+  attr_accessor :position, :one, :two, :three, :four, :five
 
   def <=>(other)
     position <=> other.position
