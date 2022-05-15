@@ -105,7 +105,6 @@ class KnightMoves
       @path << next_node
     when 1
       next_node = @root.one.flatten.at(node[0])
-      # node = @root.one.map.with_index { |arr, i| i if arr.include?(next_node) }.compact
       @path << next_node
     end
     depth -= 1

@@ -16,8 +16,8 @@ while keep_playing == true
   when 'test'
     while count <= 25
       ran = Random.new
-      p start = [ran.rand(0..7), ran.rand(0..7)]
-      p target = [ran.rand(0..7), ran.rand(0..7)]
+      start = [ran.rand(0..7), ran.rand(0..7)]
+      target = [ran.rand(0..7), ran.rand(0..7)]
       knight = KnightMoves.new(start, target)
       knight.positions
       knight.build_tree
