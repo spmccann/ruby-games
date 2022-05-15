@@ -50,50 +50,43 @@ class KnightMoves
     goal = square_index(@target)
     root = Tree.new(square_index(knight))
     root.one << moves = available_positions(knight)
-    unless moves.flatten.include?(goal)
-      root.two << moves = moves.flatten.map do |m|
-        available_positions(@all_sqs.at(m))
-      end
-    end
-    unless moves.flatten.include?(goal)
-      root.three << moves = moves.flatten.map do |m|
-        available_positions(@all_sqs.at(m))
-      end
-    end
-    unless moves.flatten.include?(goal)
-      root.four << moves = moves.flatten.map do |m|
-        available_positions(@all_sqs.at(m))
-      end
-    end
-    root.five << moves.flatten.map { |m| available_positions(@all_sqs.at(m)) } unless moves.flatten.include?(goal)
+    root.two << moves = moves.flatten.map { |m| available_positions(@all_sqs.at(m)) } unless moves.flatten.include?(goal)
+    root.three << moves = moves.flatten.map { |m| available_positions(@all_sqs.at(m)) } unless moves.flatten.include?(goal)
+    root.four << moves = moves.flatten.map { |m| available_positions(@all_sqs.at(m)) } unless moves.flatten.include?(goal)
+    root.five << moves = moves.flatten.map { |m| available_positions(@all_sqs.at(m)) } unless moves.flatten.include?(goal)
+    root.six << moves.flatten.map { |m| available_positions(@all_sqs.at(m)) } unless moves.flatten.include?(goal)
     root
   end
 
-  # checks which depth the target is found and gets the index of containg array which is the index of the next depths element
+  # checks which depth the target is found in and gets the array index which is the index of the next depth element
   def reach_target
     goal = square_index(@target)
     if @root.two.flatten.include?(goal)
       depth = 1
       node = @root.two[0].map.with_index { |arr, i| i if arr.include?(goal) }.compact
-      find_path(depth, node)
     elsif @root.three.flatten.include?(goal)
       depth = 2
       node = @root.three[0].map.with_index { |arr, i| i if arr.include?(goal) }.compact
-      find_path(depth, node)
     elsif @root.four.flatten.include?(goal)
       depth = 3
       node = @root.four[0].map.with_index { |arr, i| i if arr.include?(goal) }.compact
-      find_path(depth, node)
     elsif @root.five.flatten.include?(goal)
       depth = 4
       node = @root.five[0].map.with_index { |arr, i| i if arr.include?(goal) }.compact
-      find_path(depth, node)
+    else
+      depth = 5
+      node = @root.six[0].map.with_index { |arr, i| i if arr.include?(goal) }.compact
     end
+    find_path(depth, node)
   end
 
   # work backwards from the target by getting the location of the next coordinates
   def find_path(depth = 0, node = nil)
     case depth
+    when 5
+      next_node = @root.five.flatten.at(node[0])
+      node = @root.five[0].map.with_index { |arr, i| i if arr.include?(next_node) }.compact
+      @path << next_node
     when 4
       next_node = @root.four.flatten.at(node[0])
       node = @root.four[0].map.with_index { |arr, i| i if arr.include?(next_node) }.compact

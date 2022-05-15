@@ -3,7 +3,7 @@
 # knight piece
 class Tree
   include Comparable
-  attr_accessor :position, :one, :two, :three, :four, :five
+  attr_accessor :position, :one, :two, :three, :four, :five, :six
 
   def <=>(other)
     position <=> other.position
@@ -16,5 +16,6 @@ class Tree
     @three = []
     @four = []
     @five = []
+    @six = []
   end
 end
