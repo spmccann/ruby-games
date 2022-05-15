@@ -64,20 +64,24 @@ class KnightMoves
     if @root.two.flatten.include?(goal)
       depth = 1
       node = @root.two[0].map.with_index { |arr, i| i if arr.include?(goal) }.compact
+      find_path(depth, node)
     elsif @root.three.flatten.include?(goal)
       depth = 2
       node = @root.three[0].map.with_index { |arr, i| i if arr.include?(goal) }.compact
+      find_path(depth, node)
     elsif @root.four.flatten.include?(goal)
       depth = 3
       node = @root.four[0].map.with_index { |arr, i| i if arr.include?(goal) }.compact
+      find_path(depth, node)
     elsif @root.five.flatten.include?(goal)
       depth = 4
       node = @root.five[0].map.with_index { |arr, i| i if arr.include?(goal) }.compact
-    else
+      find_path(depth, node)
+    elsif @root.six.flatten.include?(goal)
       depth = 5
       node = @root.six[0].map.with_index { |arr, i| i if arr.include?(goal) }.compact
+      find_path(depth, node)
     end
-    find_path(depth, node)
   end
 
   # work backwards from the target by getting the location of the next coordinates
@@ -101,7 +105,7 @@ class KnightMoves
       @path << next_node
     when 1
       next_node = @root.one.flatten.at(node[0])
-      node = @root.one.map.with_index { |arr, i| i if arr.include?(next_node) }.compact
+      # node = @root.one.map.with_index { |arr, i| i if arr.include?(next_node) }.compact
       @path << next_node
     end
     depth -= 1
@@ -115,6 +119,7 @@ class KnightMoves
     cords.unshift(@knight)
     if @knight == @target
       puts "You're already on that square!"
+      puts "#{@knight}\n#{@target}"
     else
       puts "You made it in #{cords.length - 1} moves! Here's your path:\n"
       cords.each { |c| puts c.inspect }
