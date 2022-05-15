@@ -23,7 +23,6 @@ birch.postorder
 # birch.find(4)
 # birch.level_order
 # birch.height
-#birch.depth(4)
-
+# birch.depth(4)
 
 birch.pretty_print
