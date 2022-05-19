@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+
 # Caesar Cipher
 def caesar_cipher(str, shift)
   alpha = ('a'..'z').to_a
@@ -16,6 +17,6 @@ def caesar_cipher(str, shift)
       output += [letter]
     end
   end
-  puts output.join('')
+  output.join('')
 end
-caesar_cipher('What a string!', 5)
+# caesar_cipher('What a string!', 5)
