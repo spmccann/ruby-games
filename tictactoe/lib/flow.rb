@@ -2,34 +2,62 @@
 
 # messages to players to create flow of game
 class GameFlowMessages
-  attr_accessor(:names)
+  attr_accessor(:names, :x, :o)
+
+  def initialize
+    @x = ''
+    @o = ''
+  end
 
   def start_game
     puts "2-Player Tic Tac Toe\nNew Game? (yes/no)"
     gets.downcase.chomp == 'yes'
   end
 
-  def player_names
-    puts 'Please enter the names for player one and player two (John Jane): '
-    @names = gets.chomp.split
-    puts "\nHello, #{@names[0]} and #{@names[1]}!"
+  def players
+    puts 'Please enter the names for player X:'
+    @x = gets.chomp
+    puts 'Please enter the names for player O: '
+    @o = gets.chomp
+  end
+
+  def greet
+    puts "\nHello, #{@x} and #{@o}!"
     puts 'You can make your moves by entering the corresponding square number.'
   end
 
-  def make_move(turn)
-    if turn == 'x'
-      puts "#{names[0]}, mark a square for 'X' (0-8): "
+  def make_move(player)
+    if player == @x
+      puts "#{@x}, mark a square for 'X' (0-8): "
     else
-      puts "#{names[1]}, mark a square for 'O' (0-8):  "
+      puts "#{@o}, mark a square for 'O' (0-8):  "
     end
-    gets.chomp.to_i
+    validate_move
   end
 
-  def winner(player)
-    if player == 'x'
-      puts "#{names[0]} is the winner!"
+  def invalid
+    puts 'Invalid move, try again'
+  end
+
+  def tie
+    puts "It's a tie"
+  end
+
+  def winner(turn)
+    if turn
+      puts "#{@o} is the winner!"
     else
-      puts "#{names[1]} is the winner!"
+      puts "#{@x} is the winner!"
+    end
+  end
+
+  def validate_move
+    move = gets.chomp
+    if /\d/.match(move) && move.to_i.between?(0, 8)
+      move.to_i
+    else
+      invalid
+      validate_move
     end
   end
 end

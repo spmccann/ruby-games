@@ -3,7 +3,7 @@
 # board updates
 class Board
   def initialize
-    @squares = Array.new(9, ' ')
+    @squares = []
   end
 
   def example_display
@@ -30,39 +30,29 @@ class Board
     "
   end
 
-  def placement(place, player)
-    player == 'x' ? (@squares[place] = 'X') : @squares[place] = 'O'
+  def placement(place, turn)
+    @squares[place] = turn ? 'X' : 'O'
   end
 
   def reset_board
     @squares = Array.new(9, ' ')
   end
 
-  def tie
-    reset_board unless @squares.include?(' ')
+  def game_tie?
+    !@squares.include?(' ')
+  end
+
+  def game_win?
+    win_cases.include?(%w[X X X]) || win_cases.include?(%w[O O O])
   end
 
   def win_cases
-    wins = [
+    [
       @squares.values_at(0, 1, 2), @squares.values_at(3, 4, 5),
       @squares.values_at(6, 7, 8), @squares.values_at(0, 3, 6),
       @squares.values_at(1, 4, 7), @squares.values_at(2, 5, 8),
       @squares.values_at(0, 4, 8), @squares.values_at(2, 4, 6)
     ]
-    if wins.include?(%w[X X X])
-      reset_board
-      @x = 'x'
-    elsif wins.include?(%w[O O O])
-      reset_board
-    end
-  end
-
-  def won
-    if @x == 'x'
-      'x'
-    else
-      'o'
-    end
   end
 
   def open_square(sqr)

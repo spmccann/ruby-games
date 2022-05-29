@@ -7,34 +7,29 @@ board = Board.new
 flow = GameFlowMessages.new
 
 flow.start_game ? game_status = true : abort
-flow.player_names
+flow.players
+flow.greet
 board.example_display
+board.reset_board
 turn = true
 
 while game_status
-  if board.win_cases
-    flow.winner(board.won)
-    flow.start_game ? board.display : abort
-  elsif board.tie
-    puts "It's a tie!"
-    flow.start_game ? board.display : abort
-  elsif turn
-    choice = flow.make_move('x')
-    if board.open_square(choice)
-      board.placement(choice, 'x')
-      turn = false
-      board.display
-    else
-      puts("Space is taken, #{flow.names[0]}!")
-    end
+  if board.game_win?
+    board.reset_board
+    flow.winner(turn)
+    flow.start_game ? board.display : game_status = false
+  elsif board.game_tie?
+    board.reset_board
+    flow.tie
+    flow.start_game ? board.display : game_status = false
   else
-    choice = flow.make_move('o')
+    choice = turn ? flow.make_move(flow.x) : flow.make_move(flow.o)
     if board.open_square(choice)
-      board.placement(choice, 'o')
-      turn = true
+      board.placement(choice, turn)
       board.display
+      turn = !turn
     else
-      puts("Space is taken, #{flow.names[1]}!")
+      flow.invalid
     end
   end
 end
