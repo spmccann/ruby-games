@@ -2,12 +2,14 @@
 
 # board updates
 class Board
-  def initialize
-    @squares = []
+  attr_accessor(:squares)
+
+  def initialize(squares = [])
+    @squares = squares
   end
 
   def example_display
-    puts "
+    puts "\n  Example Board
     ---------
       0|1|2
       -+-+-

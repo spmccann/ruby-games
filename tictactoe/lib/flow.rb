@@ -15,9 +15,9 @@ class GameFlowMessages
   end
 
   def players
-    puts 'Please enter the names for player X:'
+    puts 'Please enter the name for player X:'
     @x = gets.chomp
-    puts 'Please enter the names for player O: '
+    puts 'Please enter the name for player O: '
     @o = gets.chomp
   end
 
