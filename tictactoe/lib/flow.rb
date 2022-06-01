@@ -51,8 +51,7 @@ class GameFlowMessages
     end
   end
 
-  def validate_move
-    move = gets.chomp
+  def validate_move(move = gets.chomp)
     if /\d/.match(move) && move.to_i.between?(0, 8)
       move.to_i
     else
