@@ -8,14 +8,15 @@ moves = Moves.new
 
 messages.title
 messages.player_names
+moves.display
 
 game_loop = true
 turn = true
 
 while game_loop
-  moves.display_board
   messages.make_move(turn)
-  moves.validate_move
-  moves.display_board
+  moves.valid_range
+  moves.drop_token(turn)
+  moves.display
   turn = !turn
 end

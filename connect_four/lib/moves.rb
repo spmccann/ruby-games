@@ -2,8 +2,11 @@
 
 # player moves and gameplay logic
 class Moves
+  attr_accessor(:place)
+
   def initialize(space = [*0..41])
     @spaces = space
+    @place = nil
   end
 
   def grid
@@ -21,19 +24,30 @@ class Moves
     display_board
   end
 
-  def display_board
+  def display
     puts grid
   end
 
-  def drop_token(place)
-    @spaces[place] = '⚫'
+  def drop_token(turn)
+    @spaces[@place] = turn ? '⚫' : '⚪'
   end
 
-  def validate_move(place = gets.chomp)
-    if /\d/.match(place) && place.to_i.between?(0, 41)
-      drop_token(place.to_i)
+  def valid_range(move = gets.chomp)
+    if /\d/.match(move) && move.to_i.between?(0, 41)
+      @place = move.to_i
     else
-      puts 'invalid move'
+      puts 'Outside of board. Please try again'
+      valid_range
+    end
+  end
+
+  def spot_take
+    puts 'Grid spot taken. Please try again' if @spaces[@place] == '⚫' || @spaces[@place] == '⚪'
+  end
+
+  def token_gravity
+    if @spaces[@place] + 6 != '⚫' || @spaces[@place] + 6 != '⚪'
+      puts 'Gravity still exists! Please try agin'
     end
   end
 end

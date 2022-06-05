@@ -14,17 +14,14 @@ class Messages
   end
 
   def player_names
-    puts 'please enter the name for player 1:'
+    puts 'Player 1, enter your name:'
     @player1 = gets.chomp
-    puts 'Please enter the name for player 2:'
+    puts 'Player 2, enter your name:'
     @player2 = gets.chomp
   end
 
   def make_move(turn)
-    if turn
-      puts "#{player1}, it's your turn to move"
-    else
-      puts "#{player2}, it's your turn to move"
-    end
+    player = turn ? @player1 : @player2
+    puts "#{player}, it's your turn to move"
   end
 end
