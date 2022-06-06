@@ -15,8 +15,11 @@ turn = true
 
 while game_loop
   messages.make_move(turn)
-  moves.valid_range
-  moves.drop_token(turn)
+  moves.movement
+  until moves.validation(turn)
+    messages.invalid_move
+    moves.movement
+  end
   moves.display
   turn = !turn
 end

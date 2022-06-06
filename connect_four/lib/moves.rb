@@ -11,43 +11,44 @@ class Moves
 
   def grid
     i = 0
-    display_board = ''
+    wrap_grid = ''
     while i < 42
-      display_board += "\n" if i % 7 == 0
-      display_board += if i < 10 && @spaces[i].is_a?(Integer)
-                         format('%02d', (@spaces[i])) + ' '
-                       else
-                         "#{@spaces[i]} "
-                       end
+      wrap_grid += "\n" if (i % 7).zero?
+      wrap_grid += if i < 10 && @spaces[i].is_a?(Integer)
+                     format('%02d ', @spaces[i])
+                   else
+                     "#{@spaces[i]} "
+                   end
       i += 1
     end
-    display_board
+    wrap_grid
   end
 
   def display
     puts grid
   end
 
+  def movement(move = gets.chomp)
+    @place = move.to_i
+  end
+
+  def validation(turn)
+    drop_token(turn) if valid_range && spot_not_taken && token_gravity
+  end
+
   def drop_token(turn)
     @spaces[@place] = turn ? '⚫' : '⚪'
   end
 
-  def valid_range(move = gets.chomp)
-    if /\d/.match(move) && move.to_i.between?(0, 41)
-      @place = move.to_i
-    else
-      puts 'Outside of board. Please try again'
-      valid_range
-    end
+  def valid_range
+    @spaces.include?(@place)
   end
 
-  def spot_take
-    puts 'Grid spot taken. Please try again' if @spaces[@place] == '⚫' || @spaces[@place] == '⚪'
+  def spot_not_taken
+    @spaces[@place] != '⚫' || @spaces[@place] != '⚪'
   end
 
   def token_gravity
-    if @spaces[@place] + 6 != '⚫' || @spaces[@place] + 6 != '⚪'
-      puts 'Gravity still exists! Please try agin'
-    end
+    (@spaces[@place] + 6 == '⚫' || @spaces[@place] + 6 == '⚪') || !@spaces.include?(@place + 7)
   end
 end
