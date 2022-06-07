@@ -28,4 +28,9 @@ class Messages
   def invalid_move
     puts 'Invalid move. Please try again'
   end
+
+  def winner(turn)
+    player = turn ? @player2 : @player1
+    puts "#{player} is the winner!"
+  end
 end

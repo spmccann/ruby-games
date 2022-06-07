@@ -14,12 +14,17 @@ game_loop = true
 turn = true
 
 while game_loop
-  messages.make_move(turn)
-  moves.movement
-  until moves.validation(turn)
-    messages.invalid_move
+  if moves.game_over?
+    messages.winner(turn)
+    game_loop = false
+  else
+    messages.make_move(turn)
     moves.movement
+    until moves.validation(turn)
+      messages.invalid_move
+      moves.movement
+    end
+    moves.display
+    turn = !turn
   end
-  moves.display
-  turn = !turn
 end

@@ -4,9 +4,11 @@
 class Moves
   attr_accessor(:place)
 
-  def initialize(space = [*0..41])
-    @spaces = space
+  def initialize(spaces = [*0..41])
+    @spaces = spaces
     @place = nil
+    @black_win = '⚫⚫⚫⚫'
+    @white_win = '⚪⚪⚪⚪'
   end
 
   def grid
@@ -50,5 +52,18 @@ class Moves
 
   def token_gravity
     (@spaces[@place] + 6 == '⚫' || @spaces[@place] + 6 == '⚪') || !@spaces.include?(@place + 7)
+  end
+
+  def game_over?
+    horizontal_four
+  end
+
+  def horizontal_four
+    test_list = []
+    @spaces.each_with_index do |s, i|
+      test_list << 'end of row' if (i % 7).zero?
+      test_list << s
+    end
+    test_list.join.include?(@black_win) || test_list.join.include?(@white_win)
   end
 end
