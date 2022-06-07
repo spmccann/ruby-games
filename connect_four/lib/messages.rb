@@ -33,4 +33,8 @@ class Messages
     player = turn ? @player2 : @player1
     puts "#{player} is the winner!"
   end
+
+  def tie
+    puts 'Game ends in a tie.'
+  end
 end

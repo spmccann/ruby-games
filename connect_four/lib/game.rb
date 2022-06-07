@@ -17,6 +17,9 @@ while game_loop
   if moves.game_over?
     messages.winner(turn)
     game_loop = false
+  elsif moves.tie?
+    messages.tie
+    game_loop = false
   else
     messages.make_move(turn)
     moves.movement

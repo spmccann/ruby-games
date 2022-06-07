@@ -90,7 +90,6 @@ class Moves
       test_list << 'end of diagonal'
       h += 1
     end
-    p test_list
     test_list.join.include?(@black_win) || test_list.join.include?(@white_win)
   end
 
@@ -105,5 +104,9 @@ class Moves
       h += 1
     end
     test_list.join.include?(@black_win) || test_list.join.include?(@white_win)
+  end
+
+  def tie?
+    @spaces.none?(0..41)
   end
 end
