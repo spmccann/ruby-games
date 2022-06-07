@@ -55,14 +55,54 @@ class Moves
   end
 
   def game_over?
-    horizontal_four
+    horiz_four || vert_four || l_diag_four || r_diag_four
   end
 
-  def horizontal_four
+  def horiz_four
     test_list = []
     @spaces.each_with_index do |s, i|
       test_list << 'end of row' if (i % 7).zero?
       test_list << s
+    end
+    test_list.join.include?(@black_win) || test_list.join.include?(@white_win)
+  end
+
+  def vert_four
+    test_list = []
+    h = 0
+    while h < 7
+      @spaces.each_with_index do |s, i|
+        test_list << s if ((i + h) % 7).zero?
+      end
+      test_list << 'end of column'
+      h += 1
+    end
+    test_list.join.include?(@black_win) || test_list.join.include?(@white_win)
+  end
+
+  def l_diag_four
+    test_list = []
+    h = 0
+    while h < 7
+      @spaces.each_with_index do |s, i|
+        test_list << s if ((i + h) % 8).zero?
+      end
+      test_list << 'end of diagonal'
+      h += 1
+    end
+    p test_list
+    test_list.join.include?(@black_win) || test_list.join.include?(@white_win)
+  end
+
+  def r_diag_four
+    test_list = []
+    h = 0
+    while h < 7
+      @spaces.each_with_index do |s, i|
+        test_list << s if ((i + h) % 6).zero?
+      end
+      test_list << 'end of diagonal'
+      h += 1
     end
     test_list.join.include?(@black_win) || test_list.join.include?(@white_win)
   end

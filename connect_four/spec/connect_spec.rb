@@ -4,7 +4,7 @@ require_relative '../lib/moves'
 
 describe Moves do
   subject(:game) { described_class.new }
-  
+
   describe '#grid' do
     it 'returns a visual 6x7 space grid for tokens' do
       print_grid = "\n00 01 02 03 04 05 06 \n07 08 09 10 11 12 13 \n14 15 16 17 18 19 20 \n21 22 23 24 25 26 27 \n28 29 30 31 32 33 34 \n35 36 37 38 39 40 41 "
@@ -90,6 +90,30 @@ describe Moves do
     context 'when a player gets connect four numbers horizontally but not on the same row' do
       it 'returns false and game continues' do
         grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, "⚫", "⚫", "⚫", "⚫", 37, 38, "⚪", "⚪", "⚪"]
+        game.instance_variable_set(:@spaces, grid_state)
+        expect(game.game_over?).to eq(false)
+      end
+    end
+
+    context 'when a player gets connect four vertically' do
+      it 'ends the game with a winner' do
+        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, "⚫", 15, 16, 17, 18, 19, 20, "⚫", 22, 23, 24, 25, 26, 27, "⚫", 29, 30, 31, 32, 33, 34, "⚫", 36, 37, 38, "⚪", "⚪", "⚪"]
+        game.instance_variable_set(:@spaces, grid_state)
+        expect(game.game_over?).to eq(true)
+      end
+    end
+
+    context 'when a player gets connect four numbers vertically but not in the same column' do
+      it 'returns false and game continues' do
+        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, "⚫", 22, 23, 24, 25, 26, 27, "⚫", 29, 30, 31, 32, 33, 34, "⚫", 36, 37, "⚪", "⚪", "⚪", "⚫"]
+        game.instance_variable_set(:@spaces, grid_state)
+        expect(game.game_over?).to eq(false)
+      end
+    end
+
+    context 'when a player gets connect four on the left diagonal' do
+      it 'ends the game with a winner' do
+        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, "⚫", 22, 23, 24, 25, 26, 27, "⚫", 29, 30, 31, 32, 33, 34, "⚫", 36, 37, "⚪", "⚪", "⚪", "⚫"]
         game.instance_variable_set(:@spaces, grid_state)
         expect(game.game_over?).to eq(false)
       end
