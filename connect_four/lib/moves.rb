@@ -109,4 +109,8 @@ class Moves
   def tie?
     @spaces.none?(0..41)
   end
+
+  def reset(answer = gets.chomp)
+    @spaces = [*0..41] if answer == 'yes'
+  end
 end

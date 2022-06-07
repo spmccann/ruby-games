@@ -37,4 +37,8 @@ class Messages
   def tie
     puts 'Game ends in a tie.'
   end
+
+  def new_game?
+    puts 'Would you like to start a new game? (type yes or no)'
+  end
 end

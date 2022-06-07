@@ -16,10 +16,14 @@ turn = true
 while game_loop
   if moves.game_over?
     messages.winner(turn)
-    game_loop = false
+    messages.new_game?
+    game_loop = false unless moves.reset
+    moves.display
   elsif moves.tie?
     messages.tie
-    game_loop = false
+    messages.new_game?
+    game_loop = false unless moves.reset
+    moves.display
   else
     messages.make_move(turn)
     moves.movement

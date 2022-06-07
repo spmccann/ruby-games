@@ -174,13 +174,12 @@ describe Moves do
         expect(game.tie?).to eq(false)
       end
     end
+  end
 
-    # context 'when all grid spots have not been filled with a connect four' do
-    #   it 'returns false and game ends with a winner (not tie)' do
-    #     grid_state = []
-    #     game.instance_variable_set(:@spaces, grid_state)
-    #     expect(game.tie?).to eq(false)
-    #   end
-    # end
+  describe '#reset' do
+    context 'when the play wants to start a new game' do
+      it 'returns a fresh board' do
+      end
+    end
   end
 end
