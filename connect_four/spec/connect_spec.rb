@@ -53,7 +53,8 @@ describe Moves do
 
     context 'when a player tries a grid spot already taken' do
       it 'returns nil and not the token' do
-        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, "⚫", 37, 38, 39, 40, 41]
+        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+                      27, 28, 29, 30, 31, 32, 33, 34, 35, '⚫', 37, 38, 39, 40, 41]
         game.instance_variable_set(:@spaces, grid_state)
         game.instance_variable_set(:@place, 36)
         expect(game.validation(true)).to eq(nil)
@@ -62,7 +63,8 @@ describe Moves do
 
     context 'when a player tries a grid spot above one already taken' do
       it 'returns the token' do
-        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, "⚫", 37, 38, 39, 40, 41]
+        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+                      27, 28, 29, 30, 31, 32, 33, 34, 35, '⚫', 37, 38, 39, 40, 41]
         game.instance_variable_set(:@spaces, grid_state)
         game.instance_variable_set(:@place, 29)
         expect(game.validation(true)).to eq('⚫')
@@ -73,7 +75,8 @@ describe Moves do
   describe '#game_over?' do
     context 'when a player 1 gets connect four horizontally' do
       it 'ends the game with a winner' do
-        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, "⚫", "⚫", "⚫", "⚫", "⚪", 40, 41]
+        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+                      27, 28, 29, 30, 31, 32, 33, 34, '⚫', '⚫', '⚫', '⚫', '⚪', 40, 41]
         game.instance_variable_set(:@spaces, grid_state)
         expect(game.game_over?).to eq(true)
       end
@@ -81,15 +84,17 @@ describe Moves do
 
     context 'when a player 2 gets connect four horizontally' do
       it 'ends the game with a winner' do
-        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, "⚪", "⚪", "⚪", "⚪", "⚫", 40, 41]
+        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+                      27, 28, 29, 30, 31, 32, 33, 34, '⚪', '⚪', '⚪', '⚪', '⚫', 40, 41]
         game.instance_variable_set(:@spaces, grid_state)
         expect(game.game_over?).to eq(true)
       end
     end
 
-    context 'when a player gets connect four numbers horizontally but not on the same row' do
+    context 'when a player connects four numbers horizontally but not on the same row' do
       it 'returns false and game continues' do
-        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, "⚫", "⚫", "⚫", "⚫", 37, 38, "⚪", "⚪", "⚪"]
+        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+                      27, 28, 29, 30, 31, 32, '⚫', '⚫', '⚫', '⚫', 37, 38, '⚪', '⚪', '⚪']
         game.instance_variable_set(:@spaces, grid_state)
         expect(game.game_over?).to eq(false)
       end
@@ -97,15 +102,17 @@ describe Moves do
 
     context 'when a player gets connect four vertically' do
       it 'ends the game with a winner' do
-        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, "⚫", 15, 16, 17, 18, 19, 20, "⚫", 22, 23, 24, 25, 26, 27, "⚫", 29, 30, 31, 32, 33, 34, "⚫", 36, 37, 38, "⚪", "⚪", "⚪"]
+        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, '⚫', 15, 16, 17, 18, 19, 20, '⚫', 22, 23, 24, 25,
+                      26, 27, '⚫', 29, 30, 31, 32, 33, 34, '⚫', 36, 37, 38, '⚪', '⚪', '⚪']
         game.instance_variable_set(:@spaces, grid_state)
         expect(game.game_over?).to eq(true)
       end
     end
 
-    context 'when a player gets connect four numbers vertically but not in the same column' do
+    context 'when a player connects four numbers vertically but not in the same column' do
       it 'returns false and game continues' do
-        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, "⚫", 22, 23, 24, 25, 26, 27, "⚫", 29, 30, 31, 32, 33, 34, "⚫", 36, 37, "⚪", "⚪", "⚪", "⚫"]
+        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, '⚫', 22, 23, 24, 25,
+                      26, 27, '⚫', 29, 30, 31, 32, 33, 34, '⚫', 36, 37, '⚪', '⚪', '⚪', '⚫']
         game.instance_variable_set(:@spaces, grid_state)
         expect(game.game_over?).to eq(false)
       end
@@ -113,10 +120,67 @@ describe Moves do
 
     context 'when a player gets connect four on the left diagonal' do
       it 'ends the game with a winner' do
-        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, "⚫", 22, 23, 24, 25, 26, 27, "⚫", 29, 30, 31, 32, 33, 34, "⚫", 36, 37, "⚪", "⚪", "⚪", "⚫"]
+        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, '⚫', 18, 19, 20, 21, 22, 23, '⚫', '⚫',
+                      26, 27, 28, 29, 30, '⚪', '⚪', '⚫', 34, 35, 36, '⚪', '⚫', '⚪', '⚪', '⚫']
+        game.instance_variable_set(:@spaces, grid_state)
+        expect(game.game_over?).to eq(true)
+      end
+    end
+
+    context 'when a player gets connect four numbers on the left diagonal but not in the grid' do
+      it 'returns false and game continues' do
+        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, '⚫', 12, 13, 14, 15, 16, 17, 18, '⚫', 20, 21, 22, 23, 24, 25,
+                      26, '⚫', 28, 29, 30, 31, 32, 33, 34, '⚫', 36, 37, 38, 39, 40, 41]
         game.instance_variable_set(:@spaces, grid_state)
         expect(game.game_over?).to eq(false)
       end
     end
+
+    context 'when a player gets connect four on the right diagonal' do
+      it 'ends the game with a winner' do
+        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, '⚪', 18, 19, 20, 21, 22, '⚪', '⚫', 25,
+                      26, 27, 28, '⚪', '⚫', '⚪', 32, 33, 34, '⚪', '⚫', '⚫', '⚫', 39, 40, 41]
+        game.instance_variable_set(:@spaces, grid_state)
+        expect(game.game_over?).to eq(true)
+      end
+    end
+
+    context 'when a player gets connect four numbers on the right diagonal but not in the grid' do
+      it 'returns false and game continues' do
+        grid_state = [0, 1, 2, 3, 4, 5, 6, 7, 8, '⚪', 10, 11, 12, 13, 14, '⚪', 16, 17, 18, 19, 20, '⚪', 22, 23, 24, 25,
+                      26, '⚪', 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
+        game.instance_variable_set(:@spaces, grid_state)
+        expect(game.game_over?).to eq(false)
+      end
+    end
+  end
+
+  describe '#tie?' do
+    context 'when all grid spots have been filled with no connect four' do
+      it 'end game as a tie' do
+        grid_state = ['⚪', '⚪', '⚪', '⚫', '⚪', '⚪', '⚪', '⚫', '⚫', '⚫', '⚪', '⚫', '⚫', '⚫', '⚪', '⚪', '⚪', '⚫', '⚪',
+                      '⚪', '⚪', '⚫', '⚫', '⚫', '⚪', '⚫', '⚫', '⚫', '⚪', '⚪', '⚪', '⚫', '⚪', '⚪', '⚪', '⚫', '⚫', '⚫', '⚪', '⚫', '⚫', '⚫']
+        game.instance_variable_set(:@spaces, grid_state)
+        expect(game.tie?).to eq(true)
+      end
+    end
+
+    context 'when all grid spots have not been filled with no connect four' do
+      it 'returns false and game continues' do
+        grid_state = [0, '⚪', '⚪', '⚫', '⚪', '⚪', '⚪', '⚫', '⚫', '⚫', '⚪', '⚫', '⚫', '⚫', '⚪', '⚪', '⚪', '⚫', '⚪', '⚪',
+                      '⚪', '⚫', '⚫', '⚫', '⚪', '⚫', '⚫', '⚫', '⚪', '⚪', '⚪', '⚫', '⚪', '⚪', '⚪', '⚫', '⚫', '⚫', '⚪', '⚫', '⚫', '⚫']
+
+        game.instance_variable_set(:@spaces, grid_state)
+        expect(game.tie?).to eq(false)
+      end
+    end
+
+    # context 'when all grid spots have not been filled with a connect four' do
+    #   it 'returns false and game ends with a winner (not tie)' do
+    #     grid_state = []
+    #     game.instance_variable_set(:@spaces, grid_state)
+    #     expect(game.tie?).to eq(false)
+    #   end
+    # end
   end
 end
