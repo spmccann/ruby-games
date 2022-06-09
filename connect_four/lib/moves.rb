@@ -59,51 +59,44 @@ class Moves
   end
 
   def horiz_four
-    test_list = []
-    @spaces.each_with_index do |s, i|
-      test_list << 'end of row' if (i % 7).zero?
-      test_list << s
-    end
-    test_list.join.include?(@black_win) || test_list.join.include?(@white_win)
+    @spaces.each_slice(7) { |s| return true if s.join.include?(@black_win) || s.join.include?(@white_win) }
   end
 
   def vert_four
     test_list = []
     h = 0
     while h < 7
-      @spaces.each_with_index do |s, i|
-        test_list << s if ((i + h) % 7).zero?
-      end
-      test_list << 'end of column'
+      (h..@spaces.length).step(7) { |i| test_list << @spaces[i] }
+      return true if test_list.join.include?(@black_win) || test_list.join.include?(@white_win)
+
       h += 1
     end
-    test_list.join.include?(@black_win) || test_list.join.include?(@white_win)
   end
 
   def l_diag_four
     test_list = []
+    l_diags = [(0..40), (1..41), (2..34), (3..27), (7..39), (14..38)]
     h = 0
-    while h < 7
-      @spaces.each_with_index do |s, i|
-        test_list << s if ((i + h) % 8).zero?
-      end
-      test_list << 'end of diagonal'
+    while h < l_diags.length
+      l_diags[h].step(8) { |i| test_list << @spaces[i] }
+      return true if test_list.join.include?(@black_win) || test_list.join.include?(@white_win)
+
       h += 1
     end
-    test_list.join.include?(@black_win) || test_list.join.include?(@white_win)
+    false
   end
 
   def r_diag_four
     test_list = []
+    r_diags = [(3..21), (4..28), (5..35), (6..36), (13..37), (20..38)]
     h = 0
-    while h < 7
-      @spaces.each_with_index do |s, i|
-        test_list << s if ((i + h) % 6).zero?
-      end
-      test_list << 'end of diagonal'
+    while h < r_diags.length
+      r_diags[h].step(6) { |i| test_list << @spaces[i] }
+      return true if test_list.join.include?(@black_win) || test_list.join.include?(@white_win)
+
       h += 1
     end
-    test_list.join.include?(@black_win) || test_list.join.include?(@white_win)
+    false
   end
 
   def tie?
