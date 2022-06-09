@@ -60,6 +60,7 @@ class Moves
 
   def horiz_four
     @spaces.each_slice(7) { |s| return true if s.join.include?(@black_win) || s.join.include?(@white_win) }
+    false
   end
 
   def vert_four
@@ -71,6 +72,7 @@ class Moves
 
       h += 1
     end
+    false
   end
 
   def l_diag_four
